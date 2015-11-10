@@ -1,6 +1,6 @@
 {
   "name": "angular-chart-sbet",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "An angular.js wrapper for Chart.js",
   "main": "dist/angular-chart.js",
   "directories": {
