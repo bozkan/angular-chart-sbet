@@ -1,6 +1,6 @@
 {
   "name": "angular-chart-sbet",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": [
     "./dist/angular-chart.js",
     "./dist/angular-chart.css"
@@ -40,7 +40,7 @@
   ],
   "dependencies": {
     "angular": "1.x",
-    "chart-sbet": "1.0.5"
+    "chart-sbet": "1.0.6"
   },
   "devDependencies": {
     "angular-bootstrap": "~0.11.0",
