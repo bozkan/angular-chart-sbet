@@ -105,7 +105,7 @@
 
           if (usingExcanvas) window.G_vmlCanvasManager.initElement(elem[0]);
 
-          // Order of setting "watch" matter
+          // Order of setting 'watch' matter
 
           scope.$watch('data', function (newVal, oldVal) {
             if (! newVal || ! newVal.length || (Array.isArray(newVal[0]) && ! newVal[0].length)) return;
@@ -157,11 +157,13 @@
             }
             if (! scope.data || ! scope.data.length) return;
             scope.getColour = typeof scope.getColour === 'function' ? scope.getColour : getRandomColour;
-            scope.colours = getColours(type, scope);
+
+            //scope.coloursNew = getColours(type, scope);
+            scope.coloursNew = getColoursForEachProp(type, scope);
             var cvs = elem[0], ctx = cvs.getContext('2d');
             var data = Array.isArray(scope.data[0]) ?
-              getDataSets(scope.labels, scope.data, scope.series || [], scope.colours) :
-              getData(scope.labels, scope.data, scope.colours);
+              getDataSets(scope.labels, scope.data, scope.series || [], scope.coloursNew) :
+              getData(scope.labels, scope.data, scope.coloursNew);
             var options = angular.extend({}, ChartJs.getOptions(type), scope.options);
             chart = new ChartJs.Chart(ctx)[type](data, options);
             scope.$emit('create', chart);
@@ -210,6 +212,47 @@
         colours.push(scope.getColour());
       }
       return colours.map(convertColour);
+    }
+
+    function getColoursForEachProp (type, scope) { //new colours arr is 2-dim [2][6]
+      var colours = angular.copy(scope.colours ||
+        ChartJs.getOptions(type).colours ||
+        Chart.defaults.global.colours
+      );
+      var newColours = [];
+      if (!!colours) {
+        colours.forEach(function (i) {
+          var temp = {
+            fillColor: i[0],
+            strokeColor: i[1],
+            pointColor: i[2],
+            pointStrokeColor: i[3],
+            pointHighlightFill: i[4],
+            pointHighlightStroke: i[5]
+          };
+          newColours.push(temp);
+        });
+      } else {
+        newColours = [
+          {
+            fillColor: 'rgba(151,187,205,0.2)',
+            pointColor: 'rgba(151,187,205,1)',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: 'rgba(151,187,205,0.8)',
+            pointStrokeColor: '#fff',
+            strokeColor: 'rgba(151,187,205,1)'
+          },
+          {
+            fillColor: 'rgba(220,220,220,0.2)',
+            pointColor: 'rgba(220,220,220,1)',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: 'rgba(220,220,220,0.8)',
+            pointStrokeColor: '#fff',
+            strokeColor: 'rgba(220,220,220,1)'
+          }
+        ];
+      }
+      return newColours;
     }
 
     function convertColour (colour) {
