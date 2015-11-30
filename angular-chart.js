@@ -220,7 +220,7 @@
         Chart.defaults.global.colours
       );
       var newColours = [];
-      if (!!colours) {
+      if (colours.length !== 0) {
         colours.forEach(function (i) {
           var temp = {
             fillColor: i[0],
